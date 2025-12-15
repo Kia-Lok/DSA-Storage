@@ -38,4 +38,6 @@ Relevant Leetcode Problems: Jump Game
 
 Relevant Applications: Converting top down to bottom up if recursion is not allowed / stricter time and space complexity
 
+Intuition: Typically, all top-down approaches can be converted to bottom-up approaches, but there is no fixed process for this. It practically frees up more overhead and may even benefit from caching, as well as possibly opening the algorithm to more optimization (E.g. Greedy approach). While top-down starts from the beginning to the end, bottom-up starts from the end and work backwards to give us information about the start, effectively telling us if its solvable with the start conditions
+
 
