@@ -1,0 +1,28 @@
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] memo = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                memo[i][j] = -1;
+            }
+        }
+        memo[m - 1][n - 1] = 1;
+        return traversal(m, n, 0, 0, memo);
+    }
+
+    public int traversal(int m, int n, int i, int j, int[][] memo) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        } else {
+            int totalPath = 0;
+            if (i < m - 1) {
+                totalPath += traversal(m, n, i + 1, j, memo);
+            }
+            if (j < n - 1) {
+                totalPath += traversal(m, n, i, j + 1, memo);
+            }
+            memo[i][j] = totalPath;
+            return totalPath;
+        }
+    }
+}
