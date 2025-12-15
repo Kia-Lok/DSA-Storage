@@ -1,0 +1,29 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+        Boolean[] memo = new Boolean[nums.length];
+        return jump(nums, 0, memo);
+    }
+
+    public boolean jump(int[] nums, int index, Boolean[] memo) {
+        int end = nums.length - 1;
+        if (memo[index] != null) {
+            return memo[index];
+        }
+        if (index == end) {
+            memo[index] = true;
+            return true;
+        }
+        if (nums[index] == 0) {
+            memo[index] = false;
+            return false;
+        }
+        for (int i = 1; i <= nums[index]; i++) {
+            if (jump(nums, index + i, memo)) {
+                memo[index] = true;
+                return true;
+            }
+        }
+        memo[index] = false;
+        return false;
+    }
+}
