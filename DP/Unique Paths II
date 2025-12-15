@@ -1,0 +1,33 @@
+class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[m - 1][n - 1] == 1) {
+            return 0;
+        }
+        int[][] memo = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                memo[i][j] = -1;
+            }
+        }
+        memo[m - 1][n - 1] = 1;
+        return traversal(m , n, 0, 0, memo, obstacleGrid);
+    }
+
+    public int traversal(int m, int n, int i, int j, int[][] memo, int[][] obstacleGrid) {
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        } else {
+            int totalPaths = 0;
+            if (i < m - 1 && obstacleGrid[i + 1][j] != 1) {
+                totalPaths += traversal(m, n, i + 1, j, memo, obstacleGrid);
+            }
+            if (j < n - 1 && obstacleGrid[i][j + 1] != 1) {
+                totalPaths += traversal(m, n, i, j + 1, memo, obstacleGrid);
+            }
+            memo[i][j] = totalPaths;
+            return totalPaths;
+        }
+    }
+}
