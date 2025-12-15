@@ -2,7 +2,7 @@
 Repository containing Dynamic Programming Problems from Github and the various methods learnt to solve them
 
 ## Table of Contents
-- [Kadane's Algorithm] (#kadanes-algorithm)
+- [Kadane's Algorithm](#kadanes-algorithm)
 
 
 
