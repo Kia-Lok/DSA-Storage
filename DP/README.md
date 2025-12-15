@@ -1,4 +1,4 @@
-＃ Dynamic Programming Problem Solving Methods
+# Dynamic Programming Problem Solving Methods
 Repository containing Dynamic Programming Problems from Github and the various methods learnt to solve them
 
 ## Table of Contents
