@@ -1,0 +1,56 @@
+class Solution {
+    public int maxKilledEnemies(char[][] grid) {
+        int max = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] != 'W' && grid[i][j] != 'E') {
+                    int result = explosionImpact(grid, i, j);
+                    if (result > max) {
+                        max = result;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+
+    public int explosionImpact(char[][] grid, int i, int j) {
+        char[] row = grid[i];
+        char[] col = new char[grid.length];
+        int p = 0;
+        for (int k = 0; k < grid.length; k++) {
+            col[p] = grid[k][j];
+            p++;
+        }
+        int total = 0;
+        for (int k = j - 1; k >= 0; k--) {
+            if (grid[i][k] == 'E') {
+                total++;
+            } else if (grid[i][k] == 'W') {
+                break;
+            }
+        }
+        for (int k = j + 1; k < grid[0].length; k++) {
+            if (grid[i][k] == 'E') {
+                total++;
+            } else if (grid[i][k] == 'W') {
+                break;
+            }
+        }
+        for (int k = i - 1; k >= 0; k--) {
+            if (grid[k][j] == 'E') {
+                total++;
+            } else if (grid[k][j]== 'W') {
+                break;
+            }
+        }
+        for (int k = i + 1; k < grid.length; k++) {
+            if (grid[k][j] == 'E') {
+                total++;
+            } else if (grid[k][j] == 'W') {
+                break;
+            }
+        }
+        return total;
+    }
+}
