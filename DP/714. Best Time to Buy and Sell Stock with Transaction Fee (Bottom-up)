@@ -1,0 +1,22 @@
+class Solution {
+    //DP problem where choices for best state depends on the previous state. 
+    //Here got 3 possible actions: Do nothing (hold), buy or sell (free)
+    //2 Possible states: Holding stock and not holding stock
+    //Choice 1: Hold stock at current state i:
+    //We take max of stock[n-1] or buy the stock and subtract from free[n-1]
+    //Choice 2: Free stock at current state i:
+    //Take max of free[n - 1] or sell off the the hold[n - 1]
+    public int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int[] free = new int[n];
+        int[] hold = new int[n];
+        hold[0] = -prices[0];
+        
+        for (int i = 1; i < n; i++) {
+            hold[i] = Math.max(hold[i - 1], free[i - 1] - prices[i]);
+            free[i] = Math.max(free[i - 1], hold[i - 1] + prices[i] - fee);
+        }
+        
+        return free[n - 1];
+    }
+}
