@@ -1,0 +1,51 @@
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int[][] memo = new int[matrix.length][matrix[0].length];
+        for (int j = 0; j < matrix[0].length; j++) {
+            memo[matrix.length - 1][j] = matrix[matrix.length - 1][j]; 
+        }
+
+        for (int i = 0; i < matrix.length - 1; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                memo[i][j] = -10001;
+            }
+        }
+        int min = 10001;
+        for (int k = 0; k < matrix.length; k++) {
+            int result = traversal(matrix, memo, 0, k);
+            if (result < min) {
+                min = result;
+            }
+        }
+        return min;
+    }
+
+    public int traversal(int[][] matrix, int[][] memo, int i, int j) {
+        if (i == matrix.length - 1) {
+            return matrix[i][j];
+        } else if (memo[i][j] != -10001) {
+            return memo[i][j];
+        } else {
+            int min = 10001;
+            int val = matrix[i][j];
+            if (j > 0) {
+                int result1 = val + traversal(matrix, memo, i + 1, j - 1);
+                if (min > result1) {
+                    min = result1;
+                }
+            }
+            if (j < matrix[0].length - 1) {
+                int result2 = val + traversal(matrix, memo, i + 1, j + 1);
+                if (min > result2) {
+                    min = result2;
+                }
+            } 
+            int result3 = val + traversal(matrix, memo, i + 1, j);
+            if (min > result3) {
+                min = result3;
+            }
+            memo[i][j] = min;
+            return min;
+        }
+    }
+}
