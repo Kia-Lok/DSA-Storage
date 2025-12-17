@@ -1,0 +1,20 @@
+class Solution {
+    public int mincostTickets(int[] days, int[] costs) {
+        return traversal(days, costs, 0, 0);
+    }
+
+    public int traversal(int[] days, int[] costs, int maxDays, int index) {
+        if (index == days.length) {
+            return 0;
+        }
+        int currentDay = days[index];
+        if (currentDay <= maxDays) {
+            return traversal(days, costs, maxDays, index + 1);
+        } else {
+            int result1 = costs[0] + traversal(days, costs, currentDay, index + 1);
+            int result2 = costs[1] + traversal(days, costs, currentDay + 6, index + 1);
+            int result3 = costs[2] + traversal(days, costs, currentDay + 29, index + 1);
+            return Math.min(result1, Math.min(result2, result3));
+        }
+    }
+}
