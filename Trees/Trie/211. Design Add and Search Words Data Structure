@@ -1,0 +1,56 @@
+class WordDictionary {
+    boolean isWord;
+    Map<Character, WordDictionary> children;
+
+    public WordDictionary() {
+        this.isWord = false;
+        this.children = new HashMap<>();
+    }
+    
+    public void addWord(String word) {
+        WordDictionary root = this;
+        for (char c : word.toCharArray()) {
+            root.children.putIfAbsent(c, new WordDictionary());
+            root = root.children.get(c);
+        }
+        root.isWord = true;
+    }
+    
+    public boolean search(String word) {
+        WordDictionary root = this;
+        return searchHelper(word, root, 0);
+        
+    }
+
+    public boolean searchHelper(String word, WordDictionary root, int index) {
+        if (word.length() == index) {
+            if (root.isWord) {
+                return true; 
+            } else {
+                return false;
+            }
+        } else {
+            char c = word.charAt(index);
+            if (c == '.') {
+                boolean result = false;
+                for (WordDictionary child : root.children.values()) {
+                    result = result || searchHelper(word, child, index + 1);
+                }
+                return result;
+            } else {
+                if (!root.children.containsKey(c)) {
+                    return false;
+                } else {
+                    return searchHelper(word, root.children.get(c), index + 1);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
