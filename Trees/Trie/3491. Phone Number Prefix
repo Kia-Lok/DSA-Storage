@@ -1,0 +1,40 @@
+class Trie {
+    boolean isWord;
+    Map<Character, Trie> children;
+
+    public Trie() {
+        this.isWord = false;
+        this.children = new HashMap<>();
+    }
+
+    public boolean insert(String word) {
+        Trie root = this;
+        for (char c : word.toCharArray()) {
+            if (!root.children.containsKey(c)) {
+                root.children.put(c, new Trie());
+            }
+            root = root.children.get(c);
+            if (root.isWord) {
+                return false;
+            }
+        }
+        root.isWord = true;
+        if (!root.children.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+}
+
+class Solution {
+    public boolean phonePrefix(String[] numbers) {
+        Trie root = new Trie();
+        for (String number : numbers) {
+            boolean answer = root.insert(number);
+            if (!answer) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
