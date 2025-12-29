@@ -1,0 +1,52 @@
+class Trie {
+    boolean isWord;
+    Map<Character, Trie> children;
+
+    public Trie() {
+        this.isWord = false;
+        this.children = new HashMap<>();
+    }
+
+    public void insert(int number) {
+        String word = String.valueOf(number);
+        Trie node = this;
+
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new Trie());
+            node = node.children.get(c);
+        }
+        node.isWord = true;
+    }
+
+    public List<Integer> retrieve() {
+        List<Integer> result = new ArrayList<>();
+        dfs(this, new StringBuilder(), result);
+        return result;
+    }
+
+    private void dfs(Trie node, StringBuilder path, List<Integer> result) {
+        if (node.isWord) {
+            result.add(Integer.parseInt(path.toString()));
+        }
+
+        for (char c = '0'; c <= '9'; c++) {
+            if (node.children.containsKey(c)) {
+                path.append(c);
+                dfs(node.children.get(c), path, result);
+                path.deleteCharAt(path.length() - 1);
+            }
+        }
+    }
+}
+
+class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        Trie root = new Trie();
+
+        for (int i = 1; i <= n; i++) {
+            root.insert(i);
+        }
+
+        return root.retrieve();
+    }
+}
