@@ -1,0 +1,67 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class UndirectedGraphNode {
+    int val;
+    List<UndirectedGraphNode> neighbours;
+
+    public UndirectedGraphNode(int val) {
+        this.val = val;
+        this.neighbours = new ArrayList<>();
+    }
+}
+class Solution {
+
+    Map<TreeNode, UndirectedGraphNode> map = new HashMap<>();
+
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        buildGraph(root);
+        UndirectedGraphNode start = map.get(target);
+        return traversal(start, null, k);
+
+    }
+
+    private UndirectedGraphNode buildGraph(TreeNode root) {
+        if (root == null) return null;
+        if (map.containsKey(root)) {
+            return map.get(root);
+        }
+        UndirectedGraphNode node = new UndirectedGraphNode(root.val);
+        map.put(root, node);
+        if (root.left != null) {
+            UndirectedGraphNode left = buildGraph(root.left);
+            node.neighbours.add(left);
+            left.neighbours.add(node);
+        }
+        if (root.right != null) {
+            UndirectedGraphNode right = buildGraph(root.right);
+            node.neighbours.add(right);
+            right.neighbours.add(node);
+        }
+
+        return node;
+    }
+
+    private List<Integer> traversal(UndirectedGraphNode root, UndirectedGraphNode previous, int steps) {
+        ArrayList<Integer> returnList = new ArrayList<>();
+        if (steps == 0) {
+            returnList.add(root.val);
+            return returnList;
+        } else {
+            for (UndirectedGraphNode neigh : root.neighbours) {
+                if (previous == null || neigh.val != previous.val) {
+                    List<Integer> result = traversal(neigh, root, steps - 1);
+                    returnList.addAll(result);
+                }
+            }
+            return returnList;
+        }
+    }
+}
