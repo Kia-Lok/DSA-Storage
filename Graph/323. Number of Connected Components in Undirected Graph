@@ -1,0 +1,46 @@
+class Solution {
+    int[][] adj;
+    int connected = 0;
+
+    public int countComponents(int n, int[][] edges) {
+        this.adj = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    adj[i][j] = 1;
+                } else {
+                    adj[i][j] = 0;
+                }
+            }
+        }
+        for (int[] edge : edges) {
+            insertEdge(edge);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (adj[i][j] == 1) {
+                    this.connected++;
+                    connectedTraversal(i);
+                }
+            }
+        }
+        return this.connected;
+    }
+
+    public void insertEdge(int[] edge) {
+        int i = edge[0];
+        int j = edge[1];
+        adj[i][j] = 1;
+        adj[j][i] = 1;
+    }
+
+    private void connectedTraversal(int i) {
+        for (int j = 0; j < adj[i].length; j++) {
+            if (adj[i][j] == 1) {
+                adj[i][j] = 0;
+                adj[j][i] = 0;
+                connectedTraversal(j);
+            }
+        }
+    }
+}
