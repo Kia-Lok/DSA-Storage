@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class FindElements {
+    TreeNode uncontamRoot;
+
+    public FindElements(TreeNode root) {
+        this.uncontamRoot = construct(root, 0);
+    }
+
+    public TreeNode construct(TreeNode sampleRoot, int val) {
+        TreeNode root = new TreeNode(val);
+        if (sampleRoot.left != null) {
+            root.left = construct(sampleRoot.left, val * 2 + 1);
+        }
+        if (sampleRoot.right != null) {
+            root.right = construct(sampleRoot.right, val * 2 + 2);
+        }
+        return root;
+    }
+    
+    public boolean find(int target) {
+        return findRecursive(this.uncontamRoot, target);
+    }
+
+    public boolean findRecursive(TreeNode root, int target) {
+        if (root.val == target) {
+            return true;
+        } else {
+            boolean found = false;
+            if (root.left != null) {
+                found = found || findRecursive(root.left, target);
+            }
+            if (root.right != null) {
+                found = found || findRecursive(root.right, target);
+            }
+            return found;
+        }
+    }
+}
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * FindElements obj = new FindElements(root);
+ * boolean param_1 = obj.find(target);
+ */
